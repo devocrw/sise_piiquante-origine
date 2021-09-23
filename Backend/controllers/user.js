@@ -20,7 +20,7 @@ exports.signup = (req, res, next) => {
   if (!email || !password) {
     return res.status(400).json({error: 'Email ou mot de passe incorrect'});
   };
-  //const cryptedEmail = cryptojs.HmacSHA256(req.body.email, process.env.EMAIL_KEY_CRYPTO).toString();
+  const cryptedEmail = cryptojs.HmacSHA256(req.body.email, process.env.EMAIL_KEY_CRYPTO).toString();
 
   if (email.match(espaceRegex) || password.match(espaceRegex)) {
     return res.status(400).json({ error: 'Les espaces ne sont pas autorisés' });
@@ -31,7 +31,7 @@ exports.signup = (req, res, next) => {
         // Récupérer le hash du mot de passe à enregistrer dans la BDD
         const user = new User({
           // Masquer l'email
-          email: email,
+          email: cryptedEmail,
           // Enregistrer le hash du mot de passe
           password: hash
         });
@@ -53,10 +53,10 @@ exports.login = (req, res, next) => {
   if (!email || !password) {
     return res.status(400).json({error: 'Email ou mot de passe incorrect'});
   };
-  //const cryptedEmail = cryptojs.HmacSHA256(req.body.email, process.env.EMAIL_KEY_CRYPTO).toString();
+  const cryptedEmail = cryptojs.HmacSHA256(req.body.email, process.env.EMAIL_KEY_CRYPTO).toString();
   
   // Vérifier l'email, si c'est false une erreur s'affiche
-  User.findOne({email: email})
+  User.findOne({email: cryptedEmail})
     .then(user => {
       if (!user) {
         return res.status(401).json({ error: 'Email non valide !' });
@@ -75,7 +75,7 @@ exports.login = (req, res, next) => {
             token: jwt.sign(
               { userId: user._id },
               // clé secrète pour l'encodage
-              "123456789",
+              process.env.TOKEN_SECRET,
               { expiresIn: '24h' }
             )
           });
