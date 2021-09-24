@@ -37,7 +37,7 @@ app.use(morgan('combined', { stream: logger.stream }));
 
 //////////////////// CONNEXION À MONGODB ////////////////////
 mongoose.connect(
-  "mongodb+srv://dbDev2:dbpasswordm@cluster0.s0zou.mongodb.net/MadbMongo?retryWrites=true&w=majority",
+  process.env.DB_URL,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true
