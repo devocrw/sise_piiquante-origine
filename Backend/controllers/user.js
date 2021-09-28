@@ -7,7 +7,7 @@ const cryptojs = require('crypto-js');
 
 const User = require('../models/user');
 
-//////////////////// INSCRIPTION ////////////////////
+/// INSCRIPTION ///
 exports.signup = (req, res, next) => {
   // Sécuriser les champs
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -45,7 +45,7 @@ exports.signup = (req, res, next) => {
   }
 };
 
-//////////////////// CONNEXION ////////////////////
+/// CONNEXION ///
 exports.login = (req, res, next) => {
   // Trouver l'utilisateur correspondant à l'email
   console.log(req.body)
