@@ -5,7 +5,7 @@ const fs = require('fs');
 // Sécuriser les champs
 const regexForm = /[^a-zA-ZÀ-ÿ-0-9-\s,.!()']+$/g;
 
-//////////////////// CRÉATION DE LA SAUCE ////////////////////
+/// CRÉATION DE LA SAUCE ///
 exports.createSauce = (req, res, next) => {
   // Objet js sous forme de chaîne de caractères
   const sauceObject = JSON.parse(req.body.sauce);
@@ -34,7 +34,7 @@ exports.createSauce = (req, res, next) => {
   };
 };
 
-//////////////////// MODIFICATION DE LA SAUCE ////////////////////
+/// MODIFICATION DE LA SAUCE ///
 exports.modifySauce = (req, res, next) => {
   // Si on trouve un fichier
   const sauceObject = req.file ?
@@ -58,7 +58,7 @@ exports.modifySauce = (req, res, next) => {
   };
 };
 
-//////////////////// SUPPRESSION DE LA SAUCE ////////////////////
+/// SUPPRESSION DE LA SAUCE ///
 exports.deleteSauce = (req, res, next) => {
   // Trouver l'objet dans la BDD
   Sauce.findOne({ _id: req.params.id })
@@ -75,21 +75,21 @@ exports.deleteSauce = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
-//////////////////// TABLEAUX DE TOUTES LES SAUCES ////////////////////
+/// TABLEAUX DE TOUTES LES SAUCES ///
 exports.getAllSauces = (req, res, next) => {
   Sauce.find()
     .then(sauces => res.status(200).json(sauces))
     .catch(error => res.status(400).json({ error }));
 };
 
-//////////////////// RÉCUPÉRATION D'UNE SEULE SAUCE GRACE AU ID ////////////////////
+/// RÉCUPÉRATION D'UNE SEULE SAUCE GRACE AU ID ///
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => res.status(200).json(sauce))
     .catch(error => res.status(404).json({ error }));
 };
 
-//////////////////// LIKE/DISLIKE DES SAUCES ////////////////////
+/// LIKE/DISLIKE DES SAUCES ///
 exports.likeDislikeSauce = (req, res, next) => {
   const likeBody = req.body.like;
   const userIdBody = req.body.userId;
