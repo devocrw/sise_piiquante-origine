@@ -5,7 +5,7 @@ const sauceCtrl = require('../controllers/sauce');
 const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 
-//////////////////// ROUTES SAUCES - ENREGISTREMENT DANS LA BASE DE DONNÉES ////////////////////
+/// ROUTES SAUCES - ENREGISTREMENT DANS LA BASE DE DONNÉES ///
 
 // Envoyer les sauces dans la base de données
 router.post('/', auth, multer, sauceCtrl.createSauce);
