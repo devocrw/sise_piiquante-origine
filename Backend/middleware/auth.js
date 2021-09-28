@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-//////////////////// AUTHENTIFICATION AVEC UN TOKEN ////////////////////
+/// AUTHENTIFICATION AVEC UN TOKEN ///
 module.exports = (req, res, next) => {
   try {
     // Récupérer le Token après l'espace
