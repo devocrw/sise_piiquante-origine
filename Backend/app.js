@@ -21,11 +21,11 @@ const mongoSanitize = require('express-mongo-sanitize');
 // Contrer les attaques XSS - Nettoyer les entrées utilisateur (POST, GET, paramètres d'URL)
 const xss = require('xss-clean');
 
-//////////////////// IMPORTATION DES ROUTES ////////////////////
+/// IMPORTATION DES ROUTES ///
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
-//////////////////// MISE EN PLACE DES PACKAGES ////////////////////
+// MISE EN PLACE DES PACKAGES //
 const app = express();
 // limiter la charge que l'utilisateur soumet à l'application
 app.use(express.json({ limite: '10kb' }));
@@ -35,7 +35,7 @@ app.use(mongoSanitize());
 app.use(xss());
 app.use(morgan('combined', { stream: logger.stream }));
 
-//////////////////// CONNEXION À MONGODB ////////////////////
+/// CONNEXION À MONGODB ///
 mongoose.connect(
   process.env.DB_URL,
   {
@@ -45,7 +45,7 @@ mongoose.connect(
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-//////////////////// CORS HEADERS - PERMET LA COMMUNICATION ENTRE LES LOCALHOST 3000/4200 ////////////////////
+/// CORS HEADERS - PERMET LA COMMUNICATION ENTRE LES LOCALHOST 3000/4200 ///
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -53,7 +53,7 @@ app.use((req, res, next) => {
   next();
 });
 
-//////////////////// MISE EN PLACE DE COOKIE-SESSION ////////////////////
+/// MISE EN PLACE DE COOKIE-SESSION ///
 let expiryDate = new Date(Date.now() + 60 * 60 * 1000); // expiration dans 1 heure
 app.use(session({
   name: 'session',
@@ -68,12 +68,12 @@ app.use(session({
 })
 );
 
-//////////////////// GÈRER LES RESSOURCES IMAGES DE MANIÈRES STATIQUES ////////////////////
+/// GÈRER LES RESSOURCES IMAGES DE MANIÈRES STATIQUES ///
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-//////////////////// LES ROUTES ////////////////////
+/// LES ROUTES ///
 app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
-//////////////////// EXPORT APP SUR TOUTE L'APP ////////////////////
+/// EXPORT APP SUR TOUTE L'APP ///
 module.exports = app;
