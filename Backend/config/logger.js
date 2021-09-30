@@ -15,8 +15,8 @@ const logger = winston.createLogger({
 });
 
 
-// If we're not in production then log to the `console` with the format:
-// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+// Si nous ne sommes pas en production, alors nous nous connectons à la `console` avec le format :
+// `${info.level} : ${info.message} JSON.stringify({ ...rest }) `
 //
 if (process.env.NODE_ENV !== 'production') {
   logger.add(new winston.transports.Console({
