@@ -52,6 +52,16 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
+/// Limite le nombre de requete ///
+const rateLimit = require('express-rate-limit');
+
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: 'trop de demandes envoyées par cette adresse IP, veuillez réessayer dans une heure. !'
+});
+
+app.use('<routes>', limiter);  // eg: app.use('/api', limiter);
 
 /// MISE EN PLACE DE COOKIE-SESSION ///
 let expiryDate = new Date(Date.now() + 60 * 60 * 1000); // expiration dans 1 heure
